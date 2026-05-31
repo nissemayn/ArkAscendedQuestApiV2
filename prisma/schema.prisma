@@ -1,0 +1,94 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model discordlink {
+  id             Int     @id @default(autoincrement()) @db.UnsignedInt
+  eos_id         String  @unique(map: "eos_id") @db.VarChar(255)
+  discord_id     String? @unique(map: "discord_id") @db.VarChar(255)
+  discord_name   String? @db.VarChar(255)
+  activationcode Int?
+  timestamp      Int
+}
+
+model lethalquestsascended_claim {
+  rowid      BigInt @id @default(autoincrement())
+  LQPlayerID BigInt @db.UnsignedBigInt
+  QuestID    BigInt
+  QuestType  Int    @db.TinyInt
+
+  @@unique([LQPlayerID, QuestID, QuestType], map: "LQPlayerID_QuestID")
+}
+
+model lethalquestsascended_players {
+  LQPlayerID BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  eos_id     String   @unique(map: "eos_id")
+  Name       String?  @db.VarChar(200)
+  TribeName  String?  @db.VarChar(100)
+  CreatedAt  DateTime @default(now()) @db.Timestamp(0)
+  UpdatedAt  DateTime @default(now()) @db.Timestamp(0)
+
+  @@index([TribeName], map: "TribeName")
+}
+
+model lethalquestsascended_quest_definitions {
+  QuestType       Int    @db.TinyInt
+  QuestID         BigInt
+  Name            String @db.VarChar(200)
+  Description     String @db.VarChar(3000)
+  PriorQuestID    BigInt @default(0)
+  PermissionGroup String @default("") @db.VarChar(200)
+
+  @@id([QuestType, QuestID])
+}
+
+model lethalquestsascended_quest_requirements {
+  QuestType     Int    @db.TinyInt
+  QuestID       BigInt
+  StatName      String
+  RequiredValue BigInt @default(0) @db.UnsignedBigInt
+
+  @@id([QuestType, QuestID, StatName])
+  @@index([StatName], map: "StatName")
+}
+
+model lethalquestsascended_quests_status {
+  LQPlayerID         BigInt @db.UnsignedBigInt
+  QuestType          Int    @db.TinyInt
+  QuestID            BigInt
+  TimeStamp          BigInt @default(0)
+  Completed          Int    @default(0) @db.TinyInt
+  CompletedTimeStamp BigInt @default(0)
+
+  @@id([LQPlayerID, QuestType, QuestID])
+}
+
+model lethalquestsascended_schema_meta {
+  MetaKey   String   @id @db.VarChar(100)
+  MetaValue String   @default("") @db.VarChar(255)
+  UpdatedAt DateTime @default(now()) @db.Timestamp(0)
+}
+
+model lethalquestsascended_stat_registry {
+  StatName  String   @id
+  Category  String   @default("") @db.VarChar(64)
+  CreatedAt DateTime @default(now()) @db.Timestamp(0)
+
+  @@index([Category], map: "Category")
+}
+
+model lethalquestsascended_stat_values {
+  LQPlayerID BigInt  @db.UnsignedBigInt
+  Period     Int     @db.UnsignedTinyInt
+  StatName   String
+  Value      Decimal @default(0.00) @db.Decimal(65, 2)
+
+  @@id([LQPlayerID, Period, StatName])
+  @@index([Period, LQPlayerID], map: "PeriodLQPlayerID")
+  @@index([StatName, Period, Value], map: "StatPeriodValue")
+}

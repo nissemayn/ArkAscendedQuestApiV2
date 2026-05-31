@@ -1,0 +1,62 @@
+{
+  "database": {
+    "dbHost": "localhost",
+    "dbName": "questdb",
+    "dbUser": "questuser",
+    "dbPassword": "changeme",
+    "dbPort": 3306
+  },
+  "servicePort": 3000,
+  "includeModname": true,
+  "timezone": "Europe/Copenhagen",
+  "discordlinkFeature": true,
+  "playerStatistics": [
+    "Name",
+    "TribeName",
+    "TotalDeaths",
+    "TamedDinos",
+    "MinutesPlayed",
+    "WildDinoKills",
+    "QuestsCompleted",
+    "DailyQuestsCompleted",
+    "WeeklyQuestsCompleted",
+    "TotalQuestsCompleted",
+    "RareDinoKills",
+    "RareTamedDinos",
+    "SuperRareDinoKills"
+  ],
+  "trackedNameOverrides": {
+    "PvPDamage": "PvP Damage",
+    "PurpleOSDWaves": "Purple OSD Waves",
+    "MantiAplhaKills": "Manti Alpha Kills",
+    "GatherStimbarries": "Gather Stimberries"
+  },
+  "addSpacesToTrackedNames": true,
+  "linebreaksInProgress": true,
+  "ignoredTrackers": [
+    "eos_id",
+    "Name",
+    "TribeName",
+    "ServerEventsCompleted",
+    "PvPDamage",
+    "PlayerKills",
+    "ServerEventsGorilla",
+    "ServerEventsLava",
+    "ServerEventsManticore",
+    "ServerEventsQueen",
+    "PlayerDeaths"
+  ],
+  "leaderboardTrackers": [
+    "QuestsCompleted",
+    "DailyQuestsCompleted",
+    "WildDinoKills",
+    "TotalDeaths",
+    "GatherWood",
+    "GatherThatch",
+    "GatherFiber"
+  ],
+  "CustomStatistics": {
+    "DailyDinoKills": "SELECT sv.Value FROM lethalquestsascended_stat_values sv JOIN lethalquestsascended_players p ON p.LQPlayerID = sv.LQPlayerID WHERE p.eos_id = '{eos_id}' AND sv.Period = 1 AND sv.StatName = 'WildDinoKills' LIMIT 1",
+    "WeeklyDinoKills": "SELECT sv.Value FROM lethalquestsascended_stat_values sv JOIN lethalquestsascended_players p ON p.LQPlayerID = sv.LQPlayerID WHERE p.eos_id = '{eos_id}' AND sv.Period = 2 AND sv.StatName = 'WildDinoKills' LIMIT 1"
+  }
+}
