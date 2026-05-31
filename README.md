@@ -6,7 +6,9 @@ This README is only for running the released software.
 
 ## Download
 
-1. Go to the repository Releases page.
+Latest release: https://github.com/nissemayn/ArkAscendedQuestApiV2/releases/latest
+
+1. Open the latest release link above.
 2. Download the latest release archive.
 3. Extract it to a folder on your server or PC.
 
