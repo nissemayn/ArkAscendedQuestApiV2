@@ -12,7 +12,7 @@ export function createResponseBase(eosId: string, infoType: string): ResponseBas
     InfoType: infoType
   }
 
-  if (getConfig().includeModname) {
+  if (getConfig().includeModname !== false) {
     base.ModName = 'LethalQuestsUI'
   }
 
