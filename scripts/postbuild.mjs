@@ -8,6 +8,8 @@ const contentDest = join(distDir, 'content')
 const exampleConfigSrc = join(projectRoot, 'example.config.json')
 const exampleConfigDest = join(distDir, 'example.config.json')
 const startBatPath = join(distDir, 'start.bat')
+const packageJsonDest = join(distDir, 'package.json')
+const packageLockDest = join(distDir, 'package-lock.json')
 
 if (!existsSync(distDir)) {
   mkdirSync(distDir, { recursive: true })
@@ -23,6 +25,10 @@ if (existsSync(contentSrc)) {
 cpSync(exampleConfigSrc, exampleConfigDest)
 console.log('Copied example.config.json → dist/example.config.json')
 
+cpSync(join(projectRoot, 'package.json'), packageJsonDest)
+cpSync(join(projectRoot, 'package-lock.json'), packageLockDest)
+console.log('Copied package.json + package-lock.json → dist/')
+
 const startBatContent = [
   '@echo off',
   'title Ark Ascended Quest API',
@@ -31,6 +37,15 @@ const startBatContent = [
   '  echo Copy example.config.json to config.json and configure it.',
   '  pause',
   '  exit /b 1',
+  ')',
+  'if not exist "node_modules" (',
+  '  echo Installing dependencies...',
+  '  npm install --omit=dev',
+  '  if errorlevel 1 (',
+  '    echo Dependency installation failed.',
+  '    pause',
+  '    exit /b 1',
+  '  )',
   ')',
   'node src\\index.js',
   'pause'
