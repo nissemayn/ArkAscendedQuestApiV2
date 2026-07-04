@@ -56,7 +56,7 @@
     "GatherFiber"
   ],
   "CustomStatistics": {
-    "DailyDinoKills": "SELECT sv.Value FROM lethalquestsascended_stat_values sv JOIN lethalquestsascended_players p ON p.LQPlayerID = sv.LQPlayerID WHERE p.eos_id = '{eos_id}' AND sv.Period = 1 AND sv.StatName = 'WildDinoKills' LIMIT 1",
-    "WeeklyDinoKills": "SELECT sv.Value FROM lethalquestsascended_stat_values sv JOIN lethalquestsascended_players p ON p.LQPlayerID = sv.LQPlayerID WHERE p.eos_id = '{eos_id}' AND sv.Period = 2 AND sv.StatName = 'WildDinoKills' LIMIT 1"
+    "DailyDinoKills": "SELECT sv.Value FROM lethalquestsascended_stat_values sv JOIN lethalquestsascended_players p ON p.LQPlayerID = sv.LQPlayerID WHERE p.eos_id = '{eos_id}' AND sv.QuestType = 1 AND sv.StatName = 'WildDinoKills' LIMIT 1",
+    "WeeklyDinoKills": "SELECT sv.Value FROM lethalquestsascended_stat_values sv JOIN lethalquestsascended_players p ON p.LQPlayerID = sv.LQPlayerID WHERE p.eos_id = '{eos_id}' AND sv.QuestType = 2 AND sv.StatName = 'WildDinoKills' LIMIT 1"
   }
 }

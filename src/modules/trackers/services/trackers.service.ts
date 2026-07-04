@@ -15,7 +15,7 @@ export async function getTrackersResponse(eosId: string): Promise<TrackersRespon
   }
 
   const statValues = await findPlayerStatValues(player.playerId)
-  const baseStats = statValues.filter((statValue) => statValue.period === 0)
+  const baseStats = statValues.filter((statValue) => statValue.questType === 0)
 
   if (baseStats.length === 0) {
     return null

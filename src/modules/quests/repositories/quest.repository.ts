@@ -55,7 +55,7 @@ async function buildQuestRecords(playerId: bigint, questIds: bigint[]): Promise<
     prisma.lethalquestsascended_stat_values.findMany({
       where: {
         LQPlayerID: playerId,
-        Period: 0
+        QuestType: 0
       }
     })
   ])

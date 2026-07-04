@@ -8,7 +8,7 @@ export type PlayerIdentityRecord = {
 }
 
 export type StatValueRecord = {
-  period: number
+  questType: number
   statName: string
   value: string
 }
@@ -64,13 +64,13 @@ export async function findPlayerStatValues(playerId: bigint): Promise<StatValueR
       LQPlayerID: playerId
     },
     orderBy: [
-      { Period: 'asc' },
+      { QuestType: 'asc' },
       { StatName: 'asc' }
     ]
   })
 
   return statValues.map((value) => ({
-    period: value.Period,
+    questType: value.QuestType,
     statName: value.StatName,
     value: value.Value.toString()
   }))

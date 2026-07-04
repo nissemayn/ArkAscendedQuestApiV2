@@ -84,11 +84,11 @@ model lethalquestsascended_stat_registry {
 
 model lethalquestsascended_stat_values {
   LQPlayerID BigInt  @db.UnsignedBigInt
-  Period     Int     @db.UnsignedTinyInt
+  QuestType     Int     @db.UnsignedTinyInt
   StatName   String
   Value      Decimal @default(0.00) @db.Decimal(65, 2)
 
-  @@id([LQPlayerID, Period, StatName])
-  @@index([Period, LQPlayerID], map: "PeriodLQPlayerID")
-  @@index([StatName, Period, Value], map: "StatPeriodValue")
+  @@id([LQPlayerID, QuestType, StatName])
+  @@index([QuestType, LQPlayerID], map: "QuestTypeLQPlayerID")
+  @@index([StatName, QuestType, Value], map: "StatQuestTypeValue")
 }

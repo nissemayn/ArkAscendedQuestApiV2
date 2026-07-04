@@ -51,7 +51,7 @@ export async function getLeaderboardsResponse(eosId: string): Promise<Leaderboar
 
   const statRows = await prisma.lethalquestsascended_stat_values.findMany({
     where: {
-      Period: 0,
+      QuestType: 0,
       StatName: {
         in: [...appSettings().leaderboardTrackers]
       }

@@ -107,7 +107,7 @@ async function buildSpecialQuest(
   playerId: bigint,
   questType: 1 | 2,
   durationSeconds: number,
-  statValuesByPeriod: Map<number, Map<string, number>>
+  statValuesByQuestType: Map<number, Map<string, number>>
 ) {
   const latestQuest = await findLatestSpecialQuestForPlayer(playerId, questType)
 
@@ -127,7 +127,7 @@ async function buildSpecialQuest(
 
   if (latestQuest.completed !== 1) {
     const requirements = await findQuestRequirements(questType, latestQuest.questId)
-    progress = buildProgressString(statValuesByPeriod.get(questType) ?? new Map(), requirements)
+    progress = buildProgressString(statValuesByQuestType.get(questType) ?? new Map(), requirements)
   }
 
   return {
@@ -151,15 +151,15 @@ export async function getPlayerStatisticsResponse(eosId: string): Promise<Player
     findLastCompletedQuestForPlayer(player.playerId)
   ])
 
-  const statValuesByPeriod = new Map<number, Map<string, number>>()
+  const statValuesByQuestType = new Map<number, Map<string, number>>()
 
   for (const statValue of statValues) {
-    const statsForPeriod = statValuesByPeriod.get(statValue.period) ?? new Map<string, number>()
-    statsForPeriod.set(statValue.statName, numericValue(statValue.value))
-    statValuesByPeriod.set(statValue.period, statsForPeriod)
+    const statsForQuestType = statValuesByQuestType.get(statValue.questType) ?? new Map<string, number>()
+    statsForQuestType.set(statValue.statName, numericValue(statValue.value))
+    statValuesByQuestType.set(statValue.questType, statsForQuestType)
   }
 
-  const baseStats = statValuesByPeriod.get(0)
+  const baseStats = statValuesByQuestType.get(0)
 
   if (!baseStats) {
     return null
@@ -186,8 +186,8 @@ export async function getPlayerStatisticsResponse(eosId: string): Promise<Player
   )
 
   const [dailyQuest, weeklyQuest, lastCompletedDefinition] = await Promise.all([
-    buildSpecialQuest(player.playerId, 1, 86400, statValuesByPeriod),
-    buildSpecialQuest(player.playerId, 2, 604800, statValuesByPeriod),
+    buildSpecialQuest(player.playerId, 1, 86400, statValuesByQuestType),
+    buildSpecialQuest(player.playerId, 2, 604800, statValuesByQuestType),
     lastCompletedQuest ? findQuestDefinition(lastCompletedQuest.questType, lastCompletedQuest.questId) : Promise.resolve(null)
   ])
 
